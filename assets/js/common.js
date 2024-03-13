@@ -204,7 +204,7 @@ function searchPost(pages){
         }
     
         if (matchedPosts.length === 0) {
-            insertItem('<span class="description">There is no search result.</span>');
+            insertItem('<span class="description">没找到.</span>');
 
             return;
         } 

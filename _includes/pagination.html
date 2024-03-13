@@ -3,7 +3,7 @@
 
 <h1 class="category-header">
     {% if page_level == 1 %}
-        All Posts
+        所有
     {% else %}
         {{ category_title }}
     {% endif %}
@@ -52,7 +52,7 @@
     {% if post_counts == 0 %}
         <div class="no-posts">
             <img src="{{ '/assets/img/sorry.png'' }}"></img>
-            <h1>Sorry, No posts found</h1>
+            <h1>空</h1>
         </div>
     {% endif %}
 </div>

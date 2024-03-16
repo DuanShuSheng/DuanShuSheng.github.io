@@ -143,6 +143,7 @@ vue 对象是管理 vue 的基本单元，开发者可以在 JS 代码中创建 
 - 在 vue 对象中，通过 `created` 定义方法，会在创建 vue 对象时自动调用。在模板渲染成html前调用，即通常初始化某些属性值，然后再渲染成视图。
 - 在 vue 对象中，通过 `mounted` 定义方法，会在创建 vue 对象时自动调用。在模板渲染成html后调用，通常是初始化页面完成后，再对html的dom节点进行一些需要的操作。
 
+{% raw %}
 ```html
 <!-- 计算结果 -->    
 <p>Word is {{ calc(50) }}</p>     
@@ -163,7 +164,7 @@ vue 对象是管理 vue 的基本单元，开发者可以在 JS 代码中创建 
   });
 </script>
 ```
-
+{% endraw %}
 
 ### 数据监听
 
@@ -396,7 +397,7 @@ vue 前端框架的基本功能单元是组件，vue 对象本身也是一个组
 
 在 vue 中， `template` 表示组件模板，即组件要展示的内容。**模板内只能含有一个根元素！**
 
-```js
+```javascript
 Vue.component("greet-bar",{  
   template:'
     <div>
@@ -438,7 +439,7 @@ Vue.component("greet-bar",{
 
 为避免用户需要一次性加载过多组件，我们可以定义局部组件，只在指定的 vue 对象中使用。
 
-```js
+```javascript
 var greetA = {
   data:function(){
     return {name:"王东浩"}
@@ -521,7 +522,8 @@ var greetB = {
 
 2. 子组件读取并显示
 
-```js
+{% raw %}
+```javascript
 Vue.component("greet-bar",{
   props::['first-name', 'last-name'],  //也可以使用驼峰式接收 firstName
   template:'
@@ -531,6 +533,7 @@ Vue.component("greet-bar",{
   '
 })
 ```
+{% endraw %}
 
 
 ### 子组件向父组件传值
@@ -557,7 +560,7 @@ Vue.component("greet-bar",{
 
 父组件通过调用的方法，保存或使用子组件传来的值。
 
-```js
+```javascript
 handle(data){
   this.sonData = data
 }
@@ -584,7 +587,7 @@ handle(data){
 1. 仍需要处理 dom 操作，操作复杂。
 2. 交互为同步操作，可能导致一致性问题。
 
-```js
+```javascript
 $.ajax({
   url:'http://localhost:8080',
   success:function:(data){
@@ -602,7 +605,7 @@ console.log(ret);                 // 打印数据，由于同步操作可能数�
 - resolve 函数： 将 promise 对象的状态标记为成功。
 - reject 函数：将 promise 对象的状态标记为失败。
 
-```js
+```javascript
 function queryData(url){
   // 创建 promise 对象
   var p = new Promise(function(resolve, reject){
@@ -626,7 +629,7 @@ function queryData(url){
 
 **发送请求并获取处理结果**
 
-```js
+```javascript
 queryData('http://localhost:8080').then(function(data){
   // 成功执行前者，返回数据为 data
   console.log(data);
@@ -642,7 +645,7 @@ queryData('http://localhost:8080').then(function(data){
 
 **请求嵌套**
 
-```js
+```javascript
 // 执行并通过 then 获取处理结果
 queryData('http://localhost:8080').then(function(data){
   console.log(data);
@@ -658,7 +661,7 @@ queryData('http://localhost:8080').then(function(data){
 
 **批量处理**
 
-```js
+```javascript
 var p1 = queryData('http://localhost:8080/data1');
 var p2 = queryData('http://localhost:8080/data2');
 var p3 = queryData('http://localhost:8080/data3');
@@ -694,7 +697,7 @@ axios 是基于 promise 实现的 http 客户端。作为第三方库，比官�
 
 一般在 main.js 文件中设定，可作用于全局。
 
-```js
+```javascript
 axios.defaults.timeout = 3000;                       // 超时时间
 axios.defaults.baseURL = "http://localhost:8080"     // 默认地址
 axios.defaults.headers['mytoken'] = 'asaffdf123'     // 请求头
@@ -704,7 +707,7 @@ axios.defaults.headers['mytoken'] = 'asaffdf123'     // 请求头
 
 1. **GET / DELETE 请求**：输入 URL 和 params 参数，参数附着在 URL 上。
 
-```js
+```javascript
 axios.get('/get',{
   params:{
     id:123
@@ -717,7 +720,7 @@ axios.get('/get',{
 
 2. **POST / PUT 请求**：输入 URL 和表单数据，数据以 json 形式传递。
 
-```js
+```javascript
 axios.post('/post',{
   uname:'tom',
   password:123456
@@ -747,7 +750,7 @@ axios.post('/post',{
 
 通常放在 try 语句中，如果超时未获得数据则直接进入异常处理。
 
-```js
+```javascript
     async getHistoryData (data) {
       try {
         let res = await axios.get('/api/survey/list/', {
@@ -763,7 +766,7 @@ axios.post('/post',{
 
 表单提交自带校验方法 `validate(callback)`{ 直接返回 Promise 对象}，默认 valid 为 true 通过。
 
-```js
+```javascript
 // 对于 ID 为 addFormRef 的表单
 this.$refs.addFormRef.validate(async valid => {
         if (!valid) return
@@ -782,7 +785,7 @@ this.$refs.addFormRef.validate(async valid => {
 
 1. 对请求加工处理
 
-```js
+```javascript
 axios.intercepter.request.use(function(config){
   // 首个函数执行拦截修改功能
   config.headers.mytoken = 'nihao';
@@ -796,7 +799,7 @@ axios.intercepter.request.use(function(config){
 
 2. 对响应结果加工处理
 
-```js
+```javascript
 axios.intercepter.response.use(function(res){
   var data = res.data;
   return data;
@@ -830,7 +833,7 @@ vue 深度集成了官方路由管理器 vue router。可选【使用用户操�
 
 开发者在专用的路由 js 文件中定义路由规则。
 
-```js
+```javascript
 <script>
   const User = {...};
   const Register = {...};
@@ -866,7 +869,7 @@ vue 深度集成了官方路由管理器 vue router。可选【使用用户操�
 
 ### 嵌套路由
 
-```js
+```javascript
 <script>
   const Tab1 = {...};
   const Tab2 = {...};
@@ -906,7 +909,8 @@ vue 深度集成了官方路由管理器 vue router。可选【使用用户操�
 
 根据参数自动选择路由
 
-```js
+{% raw %}
+``` javascript
 // 动态路径
 var router = new VueRouter({
   routes:[
@@ -916,13 +920,14 @@ var router = new VueRouter({
 
 // 动态显示内容
 const User = {
-  template:'<div>User {{$route.params.id}}</div>'
+  template:'<div>User {{ $route.params.id }}</div>'
 }
 ```
+{% endraw %}
 
 但 $route 的方式传参高度耦合，一般使用 props 将组件和路由解耦。还可以对路由路径进行命名。
 
-```js
+```javascript
 var router = new VueRouter({
   routes:[
     {path:'/user/:id',
@@ -950,7 +955,7 @@ const User = {
 
 对于路由 /list/type/11?favorite=yes 
 
-```js
+```javascript
 {
   path:'/list/type/:id',
   name:'user',  // 路由命名
@@ -974,7 +979,7 @@ const User = {
 
 push 方法和 <router-link :to="..."> 等同，执行时跳转指定页面。
 
-```js
+```javascript
 this.$router.push('home')                                                /home
 this.$router.push({ path: 'home' })                                      /home
 this.$router.push({ path: 'home', query: { plan: '123' }})               /home?plan=123（附带查询参数）
@@ -984,13 +989,13 @@ this.$router.push({ name: 'user', params: { id: 123 }})                  /list/t
 
 go 方法根据历史记录，跳转上一个或下一个页面。
 
-```js
+```javascript
 this.$router.go(-1)                  返回之前的页面
 ```
 
 replace 方法替换当前的页面，和 push 方法的不同在于不会历史记录（一般用于 404 页面）。
 
-```js
+```javascript
 this.$router.replace('/')
 ```
 
@@ -1042,13 +1047,13 @@ vue 项目由上述两种方式自动创建，其项目结构如下：
 
 1. 安装依赖包 
 
-```js
+``` javascript
 npm install element-ui -S
 ```
 
 2. `main.js` 导入资源
 
-```js
+``` javascript
 import ElementUI from 'element-ui'; 
 import 'element-ui/lib/theme-chalk/index.css'
 
